@@ -206,6 +206,7 @@ public class Terminal {
             //get seats available and if none are available have ana option to either choose different flight or
             //notify customer when seats become available
             int seatsAvailable = FlightDatabase.getSeatsAvailable(flightNumber.toUpperCase());
+            System.out.println(seatsAvailable);
 
             if(seatsAvailable < numOfTickets) {
                 System.out.println("Sorry, there aren't enough available seats for you!\n" +
@@ -268,25 +269,25 @@ public class Terminal {
 
     public static void updateFlightStatus() {
         String flightNumber;
-        String newStatus;
+        String newStatus = null;
 
         System.out.println("Updating flight status:\n" +
                 "Please enter the flight number of the flight you would like to update the status for:");
         scanner.nextLine();
         flightNumber = scanner.nextLine();
-        System.out.println("The current status of flight " + flightNumber.toUpperCase() + " is:");
-        FlightDatabase.getFlightStatus(flightNumber.toUpperCase());
+        System.out.println("The current status of flight " + flightNumber.toUpperCase() + " is: \n" +
+        FlightDatabase.getFlightStatus(flightNumber));
+
 
         System.out.println("What would you like to change the flight status to?\n" +
                 "1. On Time\n" +
                 "2. Delayed\n" +
                 "3. Boarding\n" +
                 "4. Departed\n" +
-                "5. In Air\n" +
-                "6. Arrived\n" +
-                "7. Cancelled\n" +
-                "8. Past Flight\n" +
-                "Enter '9' if you would to cancel.");
+                "5. Arrived\n" +
+                "6. Cancelled\n" +
+                "7. Past Flight\n" +
+                "Enter '8' if you would to cancel.");
 
         //use switch statement to handle choice
         int choice = scanner.nextInt();
@@ -306,16 +307,16 @@ public class Terminal {
                 newStatus = "Departed";
                 break;
             case 5:
-                newStatus = "In Air";
-                break;
-            case 6:
                 newStatus = "Arrived";
                 break;
-            case 7:
+            case 6:
                 newStatus = "Cancelled";
                 break;
-            case 8:
+            case 7:
                 newStatus = "Past Flight";
+                break;
+            case 8:
+                displayAdminMenu();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + choice);

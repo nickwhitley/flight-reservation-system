@@ -28,6 +28,12 @@ public class FlightDatabase {
     public static Connection conn;
     public static Statement statement;
 
+    static int seatsAvailable;
+    static String flightStatus;
+    static String departTime;
+    static String departDate;
+    static int ticketPrice;
+
     static {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING );
@@ -59,18 +65,19 @@ public class FlightDatabase {
         }
     }
 
-    public static void getFlightStatus(String flightNumber) {
+    public static String getFlightStatus(String flightNumber) {
         //used to print out flight status from a selected flight
+//        String flightStatus = null;
         try{
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT " + COLUMN_FLIGHT_STATUS + " FROM " + TABLE_FLIGHTS +
                     " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
-            String flightStatus = result.getString("FlightStatus");
-            System.out.println(flightStatus);
+            flightStatus = result.getString("FlightStatus");
         } catch (SQLException e) {
             System.out.println("Error getting the flight status.");
             e.printStackTrace();
         }
+        return flightStatus;
     }
 
     public static void updateFlightStatus(String flightNumber, String newStatus){
@@ -139,8 +146,9 @@ public class FlightDatabase {
 
         System.out.println("Search by flight destination and/or date:\n" +
                 "Enter 'cancel' to return to previous menu\n" +
-                "If you would like to search by just destination, enter destination first then hit 'enter' twice" +
-                "and if you would like to search by just departure date, hit enter once and then enter date followed by 'enter'" +
+                "If you would like to search by just destination, enter destination first then hit 'enter' twice\n" +
+                "and if you would like to search by just departure date, hit enter once and then enter date followed by 'enter'\n" +
+                "   \n" +
                 "Destination: \n" +
                 "Departure Date: ");
         String destinationSearch = scanner.nextLine();
@@ -280,7 +288,7 @@ public class FlightDatabase {
      */
 
     public static int getTicketPrice(String flightNumber) {
-        int ticketPrice = 0;
+
         try {
 
             Statement statement = conn.createStatement();
@@ -300,7 +308,7 @@ public class FlightDatabase {
     }
 
     public static int getSeatsAvailable(String flightNumber) {
-        int seatsAvailable = 0;
+//        int seatsAvailable = 0;
         try {
 
             Statement statement = conn.createStatement();
@@ -312,11 +320,74 @@ public class FlightDatabase {
 
 
         } catch (SQLException e) {
-            System.out.println("Error retrieving flight info for ticket price.");
+            System.out.println("Error retrieving flight info for seats available");
             e.printStackTrace();
         }
 
         return seatsAvailable;
+    }
+
+    public static String getDepartTime(String flightNumber) {
+        try {
+
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery("SELECT " + COLUMN_DEPARTURE_DATETIME + " FROM " + TABLE_FLIGHTS +
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+
+            String departTimeDate = result.getString("DepartureDateTime");
+            String[] timeSeperation = departTimeDate.split(" ", -2);
+
+            departTime = timeSeperation[0] + timeSeperation[1];
+
+
+        } catch (SQLException e) {
+            System.out.println("Error retrieving flight info for desparture time");
+            e.printStackTrace();
+        }
+
+        return departTime;
+    }
+
+    public static String getDepartDate(String flightNumber) {
+
+        try {
+
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery("SELECT " + COLUMN_DEPARTURE_DATETIME + " FROM " + TABLE_FLIGHTS +
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+
+            String departTimeDate = result.getString("DepartureDateTime");
+            String[] timeSeperation = departTimeDate.split(" ", -2);
+
+            departDate = timeSeperation[2];
+
+
+        } catch (SQLException e) {
+            System.out.println("Error retrieving flight info for departure date");
+            e.printStackTrace();
+        }
+
+        return departDate;
+    }
+
+    public static String getDestination(String flightNumber) {
+        String destination = null;
+        try {
+
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery("SELECT " + COLUMN_FLIGHT_DESTINATION + " FROM " + TABLE_FLIGHTS +
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+
+            destination = result.getString("FlightDestination");
+
+
+
+        } catch (SQLException e) {
+            System.out.println("Error retrieving flight info for flight destination");
+            e.printStackTrace();
+        }
+
+        return destination;
     }
     }
 

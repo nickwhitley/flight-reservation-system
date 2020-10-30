@@ -34,17 +34,66 @@ public class Ticket {
         this.seatNumber = seatNumber;
         this.ticketPrice = getTicketPrice(flightNumber);
         this.ticketNumber = generateTicketNumber();
+        this.departTime = getDepartTime(flightNumber);
+        this.departDate = getDepartDate(flightNumber);
+        this.destination = getDestination(flightNumber);
+        this.ticketStatus = getTicketStatus(flightNumber);
 
-        purchaseTicket(customerName, customerEmail, flightNumber, seatNumber, ticketNumber);
+
+        purchaseTicket(customerName, customerEmail, flightNumber, seatNumber, ticketNumber, departTime, departDate,
+                destination, ticketStatus, ticketPrice);
     }
 
     public static void purchaseTicket(String customerName, String customerEmail, String flightNumber,
                                       String seatNumber, int ticketNumber, String departTime,
                                       String departDate, String destination, String ticketStatus,
-                                      String ticketPrice) {
+                                      int ticketPrice) {
 
 
 
+    }
+
+    public String getDepartTime(String flightNumber) {
+        return FlightDatabase.getDepartTime(flightNumber);
+    }
+
+    public String getDepartDate(String flightNumber) {
+        return FlightDatabase.getDepartDate(flightNumber);
+    }
+
+    public String getDestination(String flightNumber) {
+        return FlightDatabase.getDestination(flightNumber);
+    }
+
+    public String getTicketStatus(String flightNumber) {
+        /*
+        ticket status can include
+        expired
+        valid
+        cancelled
+         */
+        String ticketStatus = null;
+        String flightStatus = FlightDatabase.getFlightStatus(flightNumber);
+
+        switch (flightStatus) {
+            case "On Time":
+            case "Boarding":
+            case "Arrived":
+            case "Delayed":
+                ticketStatus = "Valid";
+                break;
+            case "Cancelled":
+                ticketStatus = "Cancelled";
+                break;
+            case "Past Flight":
+            case "Departed":
+                ticketStatus = "Expired";
+                break;
+            default:
+                System.out.println("Error on flight status!");
+                break;
+        }
+        return ticketStatus;
     }
 
     public int getTicketPrice(String flightNumber) {
