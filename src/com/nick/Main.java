@@ -13,6 +13,8 @@ public class Main {
 //        Terminal.displayAdminMenu();
 //        FlightDatabase.flightDatabase();
 //        Terminal.adminCreateFlight();
+
+        Terminal.purchaseTicket();
 //        String departDate = "10/1/2020";
 //        StringBuilder dayCode = new StringBuilder();
 //        if(!departDate.substring(5,6).equals("/")) {
@@ -54,17 +56,17 @@ public class Main {
 //        System.out.println(firstPart + " " + secondPart);
 //        System.out.println(date);
 
-
-        String flightNumber = "NE801331";
-        int seats = FlightDatabase.getSeatsAvailable(flightNumber);
-        String flightStatus = FlightDatabase.getFlightStatus(flightNumber);
-        int ticketPrice = FlightDatabase.getTicketPrice(flightNumber);
-        String departTime = FlightDatabase.getDepartTime(flightNumber);
-        String departDate = FlightDatabase.getDepartDate(flightNumber);
-        System.out.println(departTime + " " + departDate);
-        System.out.println(seats);
-        System.out.println(flightStatus);
-        System.out.println(ticketPrice);
+//
+//        String flightNumber = "ne801331";
+//        int seats = FlightDatabase.getSeatsAvailable(flightNumber);
+//        String flightStatus = FlightDatabase.getFlightStatus(flightNumber);
+//        int ticketPrice = FlightDatabase.getTicketPrice(flightNumber);
+//        String departTime = FlightDatabase.getDepartTime(flightNumber);
+//        String departDate = FlightDatabase.getDepartDate(flightNumber);
+//        System.out.println(departTime + " " + departDate);
+//        System.out.println(seats);
+//        System.out.println(flightStatus);
+//        System.out.println(ticketPrice);
 
 
 //

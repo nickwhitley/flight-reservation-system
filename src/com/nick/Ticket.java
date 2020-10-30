@@ -1,7 +1,9 @@
 package com.nick;
 
 import com.nick.databases.FlightDatabase;
+import com.nick.databases.TicketDatabase;
 
+import java.sql.SQLException;
 import java.util.Random;
 
 public class Ticket {
@@ -48,7 +50,13 @@ public class Ticket {
                                       String seatNumber, int ticketNumber, String departTime,
                                       String departDate, String destination, String ticketStatus,
                                       int ticketPrice) {
-
+        try {
+            TicketDatabase.createTicket(ticketNumber, flightNumber, customerName, customerEmail,
+                    departDate, departTime, destination, ticketStatus, seatNumber, ticketPrice);
+        } catch (SQLException e) {
+            System.out.println("Error creating ticket number, in Ticket.purchaseTicket()");
+            e.printStackTrace();
+        }
 
 
     }

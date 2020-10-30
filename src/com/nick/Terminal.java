@@ -198,23 +198,27 @@ public class Terminal {
             System.out.println("Please enter the flight number for your preferred flight:");
             scanner.nextLine();
             flightNumber = scanner.nextLine();
-            System.out.println("Choice: " + flightNumber);
+            System.out.println("Choice: " + flightNumber.toUpperCase());
+            System.out.println("Seats available for this flight: " + FlightDatabase.getSeatsAvailable(flightNumber));
             System.out.println("How many tickets are you wanting to purchase?\n" +
                     "Enter amount: ");
             numOfTickets = scanner.nextInt();
+            System.out.println("Number of tickets entered: " + numOfTickets);
+            int seatsAvailable = FlightDatabase.getSeatsAvailable(flightNumber);
 
             //get seats available and if none are available have ana option to either choose different flight or
             //notify customer when seats become available
-            int seatsAvailable = FlightDatabase.getSeatsAvailable(flightNumber.toUpperCase());
-            System.out.println(seatsAvailable);
+
 
             if(seatsAvailable < numOfTickets) {
-                System.out.println("Sorry, there aren't enough available seats for you!\n" +
+                System.out.println("\nSorry, there aren't enough available seats for you!\n" +
                         "We can notify you when some become available for this flight.\n" +
                         "Please choose an option below.\n" +
                         "1. Choose different flight.\n" +
                         "2. Notify me.\n" +
-                        "3. Back to menu.");
+                        "3. Back to menu.\n" +
+                        "Enter choice.");
+
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
@@ -244,10 +248,8 @@ public class Terminal {
                 //need to implement safeguard against customers only entering first name
                 customerName = scanner.nextLine();
                 System.out.println("Enter your email: ");
-                scanner.nextLine();
                 customerEmail = scanner.nextLine();
                 System.out.println("Enter preferred seat number:");
-                scanner.nextLine();
                 String seatNumber = scanner.nextLine();
                 //SEAT NUMBER IS TEMPORARY, UNTIL I IMPLEMENT METHOD FOR CHOOSING SEAT IN FLIGHT!!!!!!!!!!!
                 Ticket ticket = new Ticket(customerName, customerEmail, flightNumber, seatNumber);
@@ -437,7 +439,8 @@ public class Terminal {
         try {
             FlightDatabase.createFlight(flightNumber, destination, finalDepartTimeDate.toString(), finalArrivalTimeDate.toString(), flightStatus,
                     numOfSeats, ticketPriceInput);
-            System.out.println("Successfully Created flight!");
+            System.out.println("Successfully Created flight!\n" +
+                    " ");
         } catch (SQLException e) {
             System.out.println("Error when creating flight");
             e.printStackTrace();

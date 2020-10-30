@@ -22,18 +22,18 @@ public class TicketDatabase {
     static Scanner scanner = new Scanner(System.in);
 
     public static final String DB_NAME = "ticketdatabase.db";
-    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\Nick\\Documents\\Coding\\Projects\\FlightReservationSystem\\Databases\\" + DB_NAME;
+    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\Nick\\Documents\\Coding\\Projects\\flight-reservation-system\\Databases\\" + DB_NAME;
     public static final String TABLE_TICKETS = "tickets";
-    public static final String COLUMN_FLIGHT_NUMBER = "Flight Number";
-    public static final String COLUMN_TICKET_NUMBER = "Ticket Number";
-    public static final String COLUMN_CUSTOMER_NAME = "Customer Name";
-    public static final String COLUMN_CUSTOMER_EMAIL = "Customer Email";
-    public static final String COLUMN_SEAT_NUMBER = "Seat Number";
-    public static final String COLUMN_TICKET_PRICE = "Ticket Price";
+    public static final String COLUMN_FLIGHT_NUMBER = "FlightNumber";
+    public static final String COLUMN_TICKET_NUMBER = "TicketNumber";
+    public static final String COLUMN_CUSTOMER_NAME = "CustomerName";
+    public static final String COLUMN_CUSTOMER_EMAIL = "CustomerEmail";
+    public static final String COLUMN_SEAT_NUMBER = "SeatNumber";
+    public static final String COLUMN_TICKET_PRICE = "TicketPrice";
     public static final String COLUMN_DESTINATION = "Destination";
-    public static final String COLUMN_TICKET_STATUS = "Ticket Status";
-    public static final String COLUMN_DEPARTURE_TIME = "Depart Time";
-    public static final String COLUMN_DEPARTURE_DATE = "Depart Date";
+    public static final String COLUMN_TICKET_STATUS = "TicketStatus";
+    public static final String COLUMN_DEPARTURE_TIME = "DepartTime";
+    public static final String COLUMN_DEPARTURE_DATE = "DepartDate";
 
     public static Connection conn;
     public static Statement statement;
@@ -48,16 +48,16 @@ public class TicketDatabase {
         }
     }
 
-    public static void purchaseTicket(String ticketNumber, String flightNumber, String customerName, String customerEmail,
+    public static void createTicket(int ticketNumber, String flightNumber, String customerName, String customerEmail,
                                       String departDate, String departTime, String destination, String ticketStatus, String seatNumber,
-                                      String ticketPrice) throws SQLException {
+                                      int ticketPrice) throws SQLException {
 
         //create data table
         try {
 
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_TICKETS +
                     " (" + COLUMN_TICKET_NUMBER + " TEXT, " +
-                    COLUMN_FLIGHT_NUMBER + " TEXT, " +
+                    COLUMN_FLIGHT_NUMBER + " INTEGER, " +
                     COLUMN_CUSTOMER_NAME + " TEXT, " +
                     COLUMN_CUSTOMER_EMAIL + " TEXT, " +
                     COLUMN_DEPARTURE_TIME + " TEXT, " +
@@ -87,16 +87,16 @@ public class TicketDatabase {
                     COLUMN_SEAT_NUMBER + ", " +
                     COLUMN_TICKET_PRICE + ") " +
                     "VALUES('" +
-                    ticketNumber + ", '" +
-                    flightNumber + ", '" +
-                    customerName + ", '" +
-                    customerEmail + ", '" +
-                    departTime + ", '" +
-                    departDate + ", '" +
-                    destination + ", '" +
-                    ticketStatus + ", '" +
-                    seatNumber + ", '" +
-                    ticketPrice + ")");
+                    ticketNumber + "', '" +
+                    flightNumber.toUpperCase() + "', '" +
+                    customerName + "', '" +
+                    customerEmail + "', '" +
+                    departTime + "', '" +
+                    departDate + "', '" +
+                    destination + "', '" +
+                    ticketStatus + "', '" +
+                    seatNumber + "', '" +
+                    ticketPrice + "')");
 
         } catch (SQLException e) {
             System.out.println("Error when creating new ticket in ticket database.");
@@ -105,7 +105,5 @@ public class TicketDatabase {
 
         statement.close();
         conn.close();
-
-
     }
 }

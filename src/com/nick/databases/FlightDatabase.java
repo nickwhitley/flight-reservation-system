@@ -15,7 +15,7 @@ public class FlightDatabase {
     static Scanner scanner = new Scanner(System.in);
 
     public static final String DB_NAME = "flightdatabase.db";
-    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\Nick\\Documents\\Coding\\Projects\\FlightReservationSystem\\Databases\\" + DB_NAME;
+    public static final String CONNECTION_STRING = "jdbc:sqlite:D:\\Nick\\Documents\\Coding\\Projects\\flight-reservation-system\\Databases\\" + DB_NAME;
     public static final String TABLE_FLIGHTS = "flights";
     public static final String COLUMN_FLIGHT_NUMBER = "FlightNumber";
     public static final String COLUMN_FLIGHT_DESTINATION = "FlightDestination";
@@ -71,7 +71,7 @@ public class FlightDatabase {
         try{
             Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery("SELECT " + COLUMN_FLIGHT_STATUS + " FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
             flightStatus = result.getString("FlightStatus");
         } catch (SQLException e) {
             System.out.println("Error getting the flight status.");
@@ -83,40 +83,24 @@ public class FlightDatabase {
     public static void updateFlightStatus(String flightNumber, String newStatus){
         try{
             statement.execute("UPDATE " + TABLE_FLIGHTS + " SET " + COLUMN_FLIGHT_STATUS + " = '" + newStatus +
-                    "' WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    "' WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
             System.out.println("Flight " + flightNumber.toUpperCase() + " status has been changed to " + newStatus);
         } catch (SQLException e) {
             System.out.println("Error occurred while updating flight status.");
-        }
-
-        try{
-            conn.close();
-            statement.close();
-        } catch (SQLException e) {
-            System.out.println("Error when closing connection and statement in update flight status.");
         }
     }
 
     public static void deleteFlight(String flightNumber) {
         try {
             statement.execute("DELETE FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
-            System.out.println("You have deleted flight " + flightNumber);
+            System.out.println("You have deleted flight " + flightNumber.toUpperCase());
         } catch (SQLException e) {
-            System.out.println("Error when trying to delete flight " + flightNumber);
+            System.out.println("Error when trying to delete flight " + flightNumber.toUpperCase());
             e.printStackTrace();
         }
-
-        try {
-            statement.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println("Error closing connection and statement in delete flight.");
-            e.printStackTrace();
-        }
-
     }
 
     public static void createFlight(String flightNumber, String destination, String departureDateAndTime,
@@ -131,11 +115,22 @@ public class FlightDatabase {
                 COLUMN_SEATS_AVAILABLE + " integer, " +
                 COLUMN_TICKET_PRICE + " integer )");
 
-        statement.execute("INSERT INTO " + TABLE_FLIGHTS + " (" + COLUMN_FLIGHT_NUMBER + ", " + COLUMN_FLIGHT_DESTINATION +
-                ", " + COLUMN_DEPARTURE_DATETIME + ", " + COLUMN_ARRIVAL_DATETIME + ", " + COLUMN_FLIGHT_STATUS + ", " +
-                COLUMN_SEATS_AVAILABLE + ", " + COLUMN_TICKET_PRICE + " ) " +
-                "VALUES('" + flightNumber + "', '" + destination + "', '" + departureDateAndTime + "', '" +
-                arrivalDateAndTime + "', '" + flightStatus + "', " + seatsAvailable + ", " + ticketPrice + ")");
+        statement.execute("INSERT INTO " + TABLE_FLIGHTS +
+                " (" + COLUMN_FLIGHT_NUMBER + ", " +
+                COLUMN_FLIGHT_DESTINATION + ", " +
+                COLUMN_DEPARTURE_DATETIME + ", " +
+                COLUMN_ARRIVAL_DATETIME + ", " +
+                COLUMN_FLIGHT_STATUS + ", " +
+                COLUMN_SEATS_AVAILABLE + ", " +
+                COLUMN_TICKET_PRICE + " ) " +
+                "VALUES('" +
+                flightNumber.toUpperCase() + "', '" +
+                destination + "', '" +
+                departureDateAndTime + "', '" +
+                arrivalDateAndTime + "', '" +
+                flightStatus + "', " +
+                seatsAvailable + ", " +
+                ticketPrice + ")");
 
         statement.close();
         conn.close();
@@ -266,16 +261,7 @@ public class FlightDatabase {
             } catch (SQLException e) {
                 System.out.println("Error in searching for available flights with destination and date!");
                 e.printStackTrace();
-            } finally {
             }
-        }
-
-        try{
-            statement.close();
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println("Erroe closing connection and statement in flight availability check");
-            e.printStackTrace();
         }
     }
 
@@ -293,7 +279,7 @@ public class FlightDatabase {
 
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery("SELECT " + COLUMN_TICKET_PRICE + " FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
             ticketPrice = result.getInt("TicketPrice");
 
@@ -313,7 +299,7 @@ public class FlightDatabase {
 
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery("SELECT " + COLUMN_SEATS_AVAILABLE + " FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
             seatsAvailable = result.getInt("SeatsAvailable");
 
@@ -332,7 +318,7 @@ public class FlightDatabase {
 
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery("SELECT " + COLUMN_DEPARTURE_DATETIME + " FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
             String departTimeDate = result.getString("DepartureDateTime");
             String[] timeSeperation = departTimeDate.split(" ", -2);
@@ -354,7 +340,7 @@ public class FlightDatabase {
 
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery("SELECT " + COLUMN_DEPARTURE_DATETIME + " FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
             String departTimeDate = result.getString("DepartureDateTime");
             String[] timeSeperation = departTimeDate.split(" ", -2);
@@ -376,7 +362,7 @@ public class FlightDatabase {
 
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery("SELECT " + COLUMN_FLIGHT_DESTINATION + " FROM " + TABLE_FLIGHTS +
-                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber + "';");
+                    " WHERE " + COLUMN_FLIGHT_NUMBER + " = '" + flightNumber.toUpperCase() + "';");
 
             destination = result.getString("FlightDestination");
 
