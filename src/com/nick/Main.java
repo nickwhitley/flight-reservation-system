@@ -9,12 +9,14 @@ public class Main {
 //        Flight flightOne = new Flight(1300, 1800, "Bunich", 150, "11/20/2020");
 
         //testing admin menu and password entry
-//        Terminal.displayInitialMenu();
+        Terminal.displayInitialMenu();
 //        Terminal.displayAdminMenu();
 //        FlightDatabase.flightDatabase();
 //        Terminal.adminCreateFlight();
 
-        Terminal.purchaseTicket();
+//        Terminal.purchaseTicket();
+
+
 //        String departDate = "10/1/2020";
 //        StringBuilder dayCode = new StringBuilder();
 //        if(!departDate.substring(5,6).equals("/")) {

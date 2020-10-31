@@ -53,6 +53,7 @@ public class Ticket {
         try {
             TicketDatabase.createTicket(ticketNumber, flightNumber, customerName, customerEmail,
                     departDate, departTime, destination, ticketStatus, seatNumber, ticketPrice);
+            System.out.println("Ticket ");
         } catch (SQLException e) {
             System.out.println("Error creating ticket number, in Ticket.purchaseTicket()");
             e.printStackTrace();
@@ -112,7 +113,9 @@ public class Ticket {
     }
 
     public static int generateTicketNumber() {
-        int ticketNum = (int) Math.random() * ((99999 - 10000) +10000);
+        int min = 10000;
+        int max = 99999;
+        int ticketNum = (int) (Math.random() * (max - min + 1) + min);
         return ticketNum;
     }
 }
