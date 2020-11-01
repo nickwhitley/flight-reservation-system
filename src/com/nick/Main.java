@@ -1,6 +1,7 @@
 package com.nick;
 
 import com.nick.databases.FlightDatabase;
+import com.nick.databases.TicketDatabase;
 
 public class Main {
 
@@ -13,6 +14,8 @@ public class Main {
 //        Terminal.displayAdminMenu();
 //        FlightDatabase.flightDatabase();
 //        Terminal.adminCreateFlight();
+
+//        FlightDatabase.reduceSeatsAvailable("AL101631", 2);
 
 //        Terminal.purchaseTicket();
 

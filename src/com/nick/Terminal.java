@@ -16,7 +16,7 @@ public class Terminal {
 
     public static void displayInitialMenu() {
         adminPasswordEntered = false;
-        System.out.println("Welcome to the flight reservation system\n" +
+        System.out.println("\nWelcome to the flight reservation system\n" +
                 "Please choose an option below:\n" +
                 "1. Check ticket and flight status.\n" +
                 "2. Check available flights.\n" +
@@ -81,7 +81,7 @@ public class Terminal {
     }
 
     public static void displayAdminMenu() {
-        System.out.println("Welcome to the admin terminal.\n" +
+        System.out.println("\nWelcome to the admin terminal.\n" +
                     "What would you like to do today?\n" +
                     "1. Create new flight.\n" +
                     "2. Update ticket status.\n" +
@@ -114,7 +114,7 @@ public class Terminal {
     public static void displayPurchaseMenu() {
 
         adminPasswordEntered = false;
-        System.out.println("Please choose an option below:\n" +
+        System.out.println("\nPlease choose an option below:\n" +
                 "1. Check ticket and flight status.\n" +
                 "2. Check available flights.\n" +
                 "3. Purchase ticket.\n" +
@@ -175,7 +175,16 @@ public class Terminal {
         //display reserved status, cancelled status, or expired ticket
         //display date of purchase and flight number
         //display general ticket info as well
-        System.out.println("getting ticket status");
+
+        System.out.println("\n" +
+                "Check your ticket and flight status.");
+        System.out.println("Enter your ticket number:");
+        int ticketNum = scanner.nextInt();
+
+        System.out.println(Ticket.getTicketAndFlightStatus(ticketNum));
+        System.out.println("\n");
+        displayInitialMenu();
+
 
     }
 
@@ -214,7 +223,7 @@ public class Terminal {
                 System.out.println("\nSorry, there aren't enough available seats for you!\n" +
                         "We can notify you when some become available for this flight.\n" +
                         "Please choose an option below.\n" +
-                        "1. Choose different flight.\n" +
+                        "1. Search for a different flight.\n" +
                         "2. Notify me.\n" +
                         "3. Back to menu.\n" +
                         "Enter choice.");
@@ -222,7 +231,7 @@ public class Terminal {
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
-                        purchaseTicket();
+                        availableFlights();
                         break;
                     case 2:
 //                        notifyCustomer();
@@ -249,10 +258,9 @@ public class Terminal {
                 customerName = scanner.nextLine();
                 System.out.println("Enter your email: ");
                 customerEmail = scanner.nextLine();
-                System.out.println("Enter preferred seat number:");
-                String seatNumber = scanner.nextLine();
-                //SEAT NUMBER IS TEMPORARY, UNTIL I IMPLEMENT METHOD FOR CHOOSING SEAT IN FLIGHT!!!!!!!!!!!
-                Ticket ticket = new Ticket(customerName, customerEmail, flightNumber, seatNumber);
+
+                Ticket ticket = new Ticket(customerName, customerEmail, flightNumber, numOfTickets);
+
 
             }
 

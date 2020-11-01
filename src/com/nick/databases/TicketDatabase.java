@@ -2,10 +2,7 @@ package com.nick.databases;
 
 import jdk.swing.interop.SwingInterOpUtils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 public class TicketDatabase {
@@ -28,7 +25,6 @@ public class TicketDatabase {
     public static final String COLUMN_TICKET_NUMBER = "TicketNumber";
     public static final String COLUMN_CUSTOMER_NAME = "CustomerName";
     public static final String COLUMN_CUSTOMER_EMAIL = "CustomerEmail";
-    public static final String COLUMN_SEAT_NUMBER = "SeatNumber";
     public static final String COLUMN_TICKET_PRICE = "TicketPrice";
     public static final String COLUMN_DESTINATION = "Destination";
     public static final String COLUMN_TICKET_STATUS = "TicketStatus";
@@ -38,6 +34,8 @@ public class TicketDatabase {
     public static Connection conn;
     public static Statement statement;
 
+    static String ticketStatus;
+    static String flightNumber;
     static {
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING);
@@ -49,22 +47,21 @@ public class TicketDatabase {
     }
 
     public static void createTicket(int ticketNumber, String flightNumber, String customerName, String customerEmail,
-                                      String departDate, String departTime, String destination, String ticketStatus, String seatNumber,
+                                      String departDate, String departTime, String destination, String ticketStatus,
                                       int ticketPrice) throws SQLException {
 
         //create data table
         try {
 
             statement.execute("CREATE TABLE IF NOT EXISTS " + TABLE_TICKETS +
-                    " (" + COLUMN_TICKET_NUMBER + " TEXT, " +
-                    COLUMN_FLIGHT_NUMBER + " INTEGER, " +
+                    " (" + COLUMN_TICKET_NUMBER + " INTEGER, " +
+                    COLUMN_FLIGHT_NUMBER + " TEXT, " +
                     COLUMN_CUSTOMER_NAME + " TEXT, " +
                     COLUMN_CUSTOMER_EMAIL + " TEXT, " +
                     COLUMN_DEPARTURE_TIME + " TEXT, " +
                     COLUMN_DEPARTURE_DATE + " TEXT, " +
                     COLUMN_DESTINATION + " TEXT, " +
                     COLUMN_TICKET_STATUS + " TEXT, " +
-                    COLUMN_SEAT_NUMBER + " TEXT, " +
                     COLUMN_TICKET_PRICE + " INTEGER ) ");
 
         } catch (SQLException e) {
@@ -84,7 +81,6 @@ public class TicketDatabase {
                     COLUMN_DEPARTURE_DATE + ", " +
                     COLUMN_DESTINATION + ", " +
                     COLUMN_TICKET_STATUS + ", " +
-                    COLUMN_SEAT_NUMBER + ", " +
                     COLUMN_TICKET_PRICE + ") " +
                     "VALUES('" +
                     ticketNumber + "', '" +
@@ -95,7 +91,6 @@ public class TicketDatabase {
                     departDate + "', '" +
                     destination + "', '" +
                     ticketStatus + "', '" +
-                    seatNumber + "', '" +
                     ticketPrice + "')");
 
         } catch (SQLException e) {
@@ -105,5 +100,38 @@ public class TicketDatabase {
 
         statement.close();
         conn.close();
+    }
+
+    public static String getTicketStatus(int ticketNumber) {
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(" SELECT " + COLUMN_TICKET_STATUS + " FROM " + TABLE_TICKETS +
+                    " WHERE " + COLUMN_TICKET_NUMBER + " = '" + ticketNumber + "';");
+
+            System.out.println();
+
+            ticketStatus = result.getString("TicketStatus");
+        } catch (SQLException e) {
+            System.out.println("Error getting ticket status.");
+            e.printStackTrace();
+        }
+        return ticketStatus;
+    }
+
+    //return the flight number for a given ticket
+    public static String getFlightNumber(int ticketNumber) {
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(" SELECT " + COLUMN_FLIGHT_NUMBER + " FROM " + TABLE_TICKETS +
+                    " WHERE " + COLUMN_TICKET_NUMBER + " = '" + ticketNumber + "';");
+
+            System.out.println();
+
+            flightNumber = result.getString("FlightNumber");
+        } catch (SQLException e) {
+            System.out.println("Error getting ticket status.");
+            e.printStackTrace();
+        }
+        return flightNumber;
     }
 }

@@ -24,42 +24,56 @@ public class Ticket {
     private int ticketPrice;
     private String ticketStatus;
     private String flightNumber;
-    private String seatNumber;
     private String departTime;
     private String departDate;
     private String destination;
 
-    public Ticket(String customerName, String customerEmail, String flightNumber, String seatNumber) {
+    public Ticket(String customerName, String customerEmail, String flightNumber, int numOfTickets) {
         this.customerName = customerName;
         this.customerEmail = customerEmail;
         this.flightNumber = flightNumber;
-        this.seatNumber = seatNumber;
         this.ticketPrice = getTicketPrice(flightNumber);
         this.ticketNumber = generateTicketNumber();
         this.departTime = getDepartTime(flightNumber);
         this.departDate = getDepartDate(flightNumber);
         this.destination = getDestination(flightNumber);
-        this.ticketStatus = getTicketStatus(flightNumber);
+        this.ticketStatus = setTicketStatus(flightNumber);
+        numOfTickets = numOfTickets;
 
 
-        purchaseTicket(customerName, customerEmail, flightNumber, seatNumber, ticketNumber, departTime, departDate,
-                destination, ticketStatus, ticketPrice);
+        purchaseTicket(customerName, customerEmail, flightNumber, ticketNumber, departTime, departDate,
+                destination, ticketStatus, ticketPrice, numOfTickets);
     }
 
-    public static void purchaseTicket(String customerName, String customerEmail, String flightNumber,
-                                      String seatNumber, int ticketNumber, String departTime,
+    public static void purchaseTicket(String customerName, String customerEmail, String flightNumber, int ticketNumber, String departTime,
                                       String departDate, String destination, String ticketStatus,
-                                      int ticketPrice) {
+                                      int ticketPrice, int numOfTickets) {
         try {
             TicketDatabase.createTicket(ticketNumber, flightNumber, customerName, customerEmail,
-                    departDate, departTime, destination, ticketStatus, seatNumber, ticketPrice);
-            System.out.println("Ticket ");
+                    departDate, departTime, destination, ticketStatus, ticketPrice);
+            System.out.println("Ticket purchased, you will receive a confirmation email with your ticket information.\n" +
+                    "Thank you!\n" +
+                    "   ");
+            FlightDatabase.reduceSeatsAvailable(flightNumber, numOfTickets);
+
+            System.out.println("Returning to customer menu...\n" +
+                    "  ");
+            Terminal.displayInitialMenu();
         } catch (SQLException e) {
             System.out.println("Error creating ticket number, in Ticket.purchaseTicket()");
             e.printStackTrace();
         }
 
 
+    }
+
+    //used specifically for "1. Check ticket and flight status in initial menu
+    public static String getTicketAndFlightStatus(int ticketNumber) {
+        String ticketStatus = TicketDatabase.getTicketStatus(ticketNumber);
+        String flightNumber = TicketDatabase.getFlightNumber(ticketNumber);
+        String flightStatus = FlightDatabase.getFlightStatus(flightNumber);
+
+        return "Your ticket is currently " + ticketStatus + " for flight " + flightNumber + " is " + flightStatus;
     }
 
     public String getDepartTime(String flightNumber) {
@@ -74,7 +88,13 @@ public class Ticket {
         return FlightDatabase.getDestination(flightNumber);
     }
 
-    public String getTicketStatus(String flightNumber) {
+    public static String getTicketStatus(int ticketNumber){
+        String ticketStatus = TicketDatabase.getTicketStatus(ticketNumber);
+
+        return ticketStatus;
+    }
+
+    public String setTicketStatus(String flightNumber) {
         /*
         ticket status can include
         expired
@@ -103,6 +123,7 @@ public class Ticket {
                 break;
         }
         return ticketStatus;
+        // need to update to take ticketNumber as param
     }
 
     public int getTicketPrice(String flightNumber) {

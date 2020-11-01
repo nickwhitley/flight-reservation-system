@@ -162,7 +162,9 @@ public class FlightDatabase {
                 Statement statement = conn.createStatement();
                 ResultSet result = statement.executeQuery("SELECT * FROM " + TABLE_FLIGHTS + " WHERE " +
                         COLUMN_FLIGHT_DESTINATION + " LIKE '%" + destinationSearch + "%' AND " +
-                                COLUMN_DEPARTURE_DATETIME + " LIKE '%" + departDateSearch + "%';");
+                                COLUMN_DEPARTURE_DATETIME + " LIKE '%" + departDateSearch + "%' AND NOT " +
+                        COLUMN_FLIGHT_STATUS + "= 'Cancelled' OR " + COLUMN_FLIGHT_STATUS + "= 'Departed' OR " +
+                        COLUMN_FLIGHT_STATUS + " = 'Past Flight';");
 
                 ResultSetMetaData resultData = result.getMetaData();
                 //number of columns in result data to loop through for print
@@ -200,7 +202,9 @@ public class FlightDatabase {
             try {
                 Statement statement = conn.createStatement();
                 ResultSet result = statement.executeQuery("SELECT * FROM " + TABLE_FLIGHTS + " WHERE " +
-                        COLUMN_DEPARTURE_DATETIME + " LIKE '%" + departDateSearch + "%';");
+                        COLUMN_DEPARTURE_DATETIME + " LIKE '%" + departDateSearch + "%' AND NOT " +
+                        COLUMN_FLIGHT_STATUS + "= 'Cancelled' OR " + COLUMN_FLIGHT_STATUS + "= 'Departed' OR " +
+                        COLUMN_FLIGHT_STATUS + " = 'Past Flight';");
 
                 ResultSetMetaData resultData = result.getMetaData();
                 //number of columns in result data to loop through for print
@@ -235,7 +239,9 @@ public class FlightDatabase {
             try {
                 Statement statement = conn.createStatement();
                 ResultSet result = statement.executeQuery("SELECT * FROM " + TABLE_FLIGHTS + " WHERE " +
-                        COLUMN_FLIGHT_DESTINATION + " LIKE '%" + destinationSearch + "%';");
+                        COLUMN_FLIGHT_DESTINATION + " LIKE '%" + destinationSearch + "%' AND NOT " +
+                        COLUMN_FLIGHT_STATUS + "= 'Cancelled' OR " + COLUMN_FLIGHT_STATUS + "= 'Departed' OR " +
+                        COLUMN_FLIGHT_STATUS + " = 'Past Flight';");
 
                 ResultSetMetaData resultData = result.getMetaData();
                 //number of columns in result data to loop through for print
@@ -375,5 +381,27 @@ public class FlightDatabase {
 
         return destination;
     }
+
+    public static void reduceSeatsAvailable(String flightNumber, int numOfSeats){
+
+
+        try {
+            int currentNumOfSeats = FlightDatabase.getSeatsAvailable(flightNumber);;
+            int newNumOfSeats = currentNumOfSeats - numOfSeats;
+
+            statement.execute("UPDATE " + TABLE_FLIGHTS + " SET " + COLUMN_SEATS_AVAILABLE +
+                    " = '" + newNumOfSeats + "' WHERE " + COLUMN_FLIGHT_NUMBER + " ='" + flightNumber + "';");
+            System.out.println(currentNumOfSeats);
+            System.out.println(newNumOfSeats);
+
+            System.out.println("Successfully updated seats due to purchase.");
+        } catch (SQLException e) {
+            System.out.println("error updating seats from purchase.");
+            e.printStackTrace();
+        }
+
+
+    }
+
     }
 
