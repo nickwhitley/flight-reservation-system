@@ -146,4 +146,18 @@ public class TicketDatabase {
             e.printStackTrace();
         }
     }
+
+    public static void updateTicketStatus(int ticketNumber, String newStatus) {
+        try {
+            statement.execute(" UPDATE " + TABLE_TICKETS + " SET " +
+                    COLUMN_TICKET_STATUS + " = '" + newStatus + "' WHERE " + COLUMN_TICKET_NUMBER + " = '" +
+                    ticketNumber + "';" );
+            System.out.println("Successfully updated ticket status!");
+        } catch (SQLException e) {
+            System.out.println("Error updating ticket status.");
+            e.printStackTrace();
+        }
+
+
+    }
 }

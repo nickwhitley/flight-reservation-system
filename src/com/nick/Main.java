@@ -14,7 +14,7 @@ public class Main {
 //        Terminal.displayAdminMenu();
 //        FlightDatabase.flightDatabase();
 //        Terminal.adminCreateFlight();
-        Ticket.cancelTicket(0);
+        Terminal.updateTicketStatus();
 
 //        FlightDatabase.reduceSeatsAvailable("AL101631", 2);
 

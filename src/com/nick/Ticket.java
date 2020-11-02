@@ -144,4 +144,9 @@ public class Ticket {
         //call ticketDB method to cancel ticket
         TicketDatabase.cancelTicket(ticketNumber);
     }
+
+    //used to update just one ticket
+    public static void updateTicketStatus(int ticketNumber, String newStatus) {
+        TicketDatabase.updateTicketStatus(ticketNumber, newStatus);
+    }
 }

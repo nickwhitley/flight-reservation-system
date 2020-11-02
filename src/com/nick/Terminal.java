@@ -1,6 +1,7 @@
 package com.nick;
 
 import com.nick.databases.FlightDatabase;
+import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -287,8 +288,43 @@ public class Terminal {
 
     }
 
-    public static void updateTicketStatus() {
 
+    //used to update just one ticket
+    public static void updateTicketStatus() {
+        System.out.println("Please enter the ticket number: ");
+        int ticketNumEntry = scanner.nextInt();
+        String currentStatus = Ticket.getTicketStatus(ticketNumEntry);
+        System.out.println("The current status for ticket " + ticketNumEntry +
+                " is: " + currentStatus);
+        System.out.println("Please choose a new status from the available options below: \n" +
+                "1. Valid.\n" +
+                "2. Cancelled.\n" +
+                "3. Expired.\n" +
+                "4. Cancel status update and return to main menu.");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                Ticket.updateTicketStatus(ticketNumEntry, "Valid");
+                break;
+            case 2:
+                Ticket.updateTicketStatus(ticketNumEntry, "Cancelled");
+                break;
+            case 3:
+                Ticket.updateTicketStatus(ticketNumEntry, "Expired");
+                break;
+            case 4:
+                System.out.println("Returning to admin menu.");
+                displayAdminMenu();
+                break;
+            default:
+                System.out.println("Incorrect entry, returning to admin menu.");
+                displayAdminMenu();
+                break;
+        }
+
+        System.out.println("Returning to admin menu.");
+        displayAdminMenu();
     }
 
     public static void updateFlightStatus() {
