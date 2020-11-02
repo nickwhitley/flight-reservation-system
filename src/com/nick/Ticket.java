@@ -51,7 +51,7 @@ public class Ticket {
         try {
             TicketDatabase.createTicket(ticketNumber, flightNumber, customerName, customerEmail,
                     departDate, departTime, destination, ticketStatus, ticketPrice);
-            System.out.println("Ticket purchased, you will receive a confirmation email with your ticket information.\n" +
+            System.out.println("Ticket purchased, your ticket number is " + ticketNumber + "\n" +
                     "Thank you!\n" +
                     "   ");
             FlightDatabase.reduceSeatsAvailable(flightNumber, numOfTickets);
@@ -73,7 +73,7 @@ public class Ticket {
         String flightNumber = TicketDatabase.getFlightNumber(ticketNumber);
         String flightStatus = FlightDatabase.getFlightStatus(flightNumber);
 
-        return "Your ticket is currently " + ticketStatus + " for flight " + flightNumber + " is " + flightStatus;
+        return "Your ticket is currently " + ticketStatus + " for flight " + flightNumber + " which has a status of: " + flightStatus;
     }
 
     public String getDepartTime(String flightNumber) {

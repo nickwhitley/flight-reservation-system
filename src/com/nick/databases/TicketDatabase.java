@@ -97,9 +97,6 @@ public class TicketDatabase {
             System.out.println("Error when creating new ticket in ticket database.");
             e.printStackTrace();
         }
-
-        statement.close();
-        conn.close();
     }
 
     public static String getTicketStatus(int ticketNumber) {
@@ -147,6 +144,7 @@ public class TicketDatabase {
         }
     }
 
+    //used in admin menu choice
     public static void updateTicketStatus(int ticketNumber, String newStatus) {
         try {
             statement.execute(" UPDATE " + TABLE_TICKETS + " SET " +
@@ -159,6 +157,7 @@ public class TicketDatabase {
         }
     }
 
+    //used when flight status changes
     public static void updateTicketStatus(String flightNumber, String newStatus) {
         try{
             statement.execute(" UPDATE " + TABLE_TICKETS + " SET " +

@@ -271,6 +271,12 @@ public class Terminal {
 
     }
 
+    public static void notifyCustomer() {
+        System.out.println("This function is unavailable at the moment.\n" +
+                "Returning to main menu.");
+        displayInitialMenu();
+    }
+
     public static void cancelTicket() {
         System.out.println("\n" +
                 "Please enter the ticket number that you would like to cancel.\n" +
@@ -287,9 +293,7 @@ public class Terminal {
             System.out.println("\n");
             displayInitialMenu();
         }
-
     }
-
 
     //used to update just one ticket
     public static void updateTicketStatus() {
@@ -324,7 +328,6 @@ public class Terminal {
                 displayAdminMenu();
                 break;
         }
-
         System.out.println("Returning to admin menu.");
         displayAdminMenu();
     }
@@ -341,7 +344,6 @@ public class Terminal {
         System.out.println("The current status of flight " + flightNumber.toUpperCase() + " is: \n" +
         FlightDatabase.getFlightStatus(flightNumber));
 
-
         System.out.println("What would you like to change the flight status to?\n" +
                 "1. On Time\n" +
                 "2. Delayed\n" +
@@ -354,7 +356,6 @@ public class Terminal {
 
         //use switch statement to handle choice
         int choice = scanner.nextInt();
-
 
         switch (choice) {
             case 1:
@@ -391,11 +392,9 @@ public class Terminal {
             default:
                 throw new IllegalStateException("Unexpected value: " + choice);
         }
-
         FlightDatabase.updateFlightStatus(flightNumber.toUpperCase(), newStatus);
         Ticket.updateTicketStatus(flightNumber, newTicketStatus);
         displayAdminMenu();
-
     }
 
 
@@ -461,7 +460,11 @@ public class Terminal {
         int arrivalTimeMinutes = (arrivalTimeConversion - arrivalTimeConversion * 100) % 60;
 
         //convert time into string
-        finalDepartTimeDate.append(String.valueOf(departTimeHours));
+        if(departTimeHours > 12) {
+            finalDepartTimeDate.append(String.valueOf(departTimeHours - 12));
+        } else {
+            finalDepartTimeDate.append(String.valueOf(departTimeHours));
+        }
         finalDepartTimeDate.append(":");
         if (departTimeMinutes != 0) {
             finalDepartTimeDate.append(String.valueOf(departTimeMinutes));
@@ -474,7 +477,11 @@ public class Terminal {
             finalDepartTimeDate.append(" PM");
         }
 
-        finalArrivalTimeDate.append(String.valueOf(arrivalTimeHours));
+        if(arrivalTimeHours > 12) {
+            finalDepartTimeDate.append(String.valueOf(arrivalTimeHours - 12));
+        } else {
+            finalDepartTimeDate.append(String.valueOf(arrivalTimeHours));
+        }
         finalArrivalTimeDate.append(":");
         if (arrivalTimeMinutes != 0) {
             finalArrivalTimeDate.append(String.valueOf(arrivalTimeMinutes));
@@ -502,9 +509,6 @@ public class Terminal {
         } else {
             dayCode.append(departDateInput.substring(3,5));
         }
-
-
-
 
         int departTime = departTimeInput;
         String departDate = departDateInput;

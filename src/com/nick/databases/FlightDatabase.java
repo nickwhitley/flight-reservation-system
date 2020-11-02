@@ -387,8 +387,6 @@ public class FlightDatabase {
 
             statement.execute("UPDATE " + TABLE_FLIGHTS + " SET " + COLUMN_SEATS_AVAILABLE +
                     " = '" + newNumOfSeats + "' WHERE " + COLUMN_FLIGHT_NUMBER + " ='" + flightNumber + "';");
-            System.out.println(currentNumOfSeats);
-            System.out.println(newNumOfSeats);
 
             System.out.println("Successfully updated seats due to purchase.");
         } catch (SQLException e) {
