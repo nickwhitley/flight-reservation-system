@@ -269,7 +269,21 @@ public class Terminal {
     }
 
     public static void cancelTicket() {
-        System.out.println("Cancel ticket screen");
+        System.out.println("\n" +
+                "Please enter the ticket number that you would like to cancel.\n" +
+                "If you would like to go back without cancelling your ticket just enter 'cancel'\n" +
+                "Enter:");
+
+        String choice = scanner.nextLine();
+        if(choice.equalsIgnoreCase("cancel")) {
+            System.out.println("You have cancelled.\n" +
+                    "Returning to main menu.");
+        } else {
+            int ticketNum = Integer.parseInt(choice);
+            Ticket.cancelTicket(ticketNum);
+            System.out.println("\n");
+            displayInitialMenu();
+        }
 
     }
 

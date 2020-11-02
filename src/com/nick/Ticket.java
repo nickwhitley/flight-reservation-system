@@ -139,4 +139,9 @@ public class Ticket {
         int ticketNum = (int) (Math.random() * (max - min + 1) + min);
         return ticketNum;
     }
+
+    public static void cancelTicket(int ticketNumber) {
+        //call ticketDB method to cancel ticket
+        TicketDatabase.cancelTicket(ticketNumber);
+    }
 }

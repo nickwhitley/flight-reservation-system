@@ -134,4 +134,16 @@ public class TicketDatabase {
         }
         return flightNumber;
     }
+
+    public static void cancelTicket(int ticketNumber) {
+        try{
+            statement.execute(" UPDATE " + TABLE_TICKETS +
+                    " SET " + COLUMN_TICKET_STATUS + " = 'Cancelled' WHERE " +
+                    COLUMN_TICKET_NUMBER + " ='" + ticketNumber + "';");
+            System.out.println("Successfully cancelled ticket: " + ticketNumber);
+        } catch (SQLException e) {
+            System.out.println("Error when trying to cancel ticket");
+            e.printStackTrace();
+        }
+    }
 }
