@@ -1,5 +1,9 @@
 package com.nick;
 
+
+//class will be used to display models for seat selection feature.
+
+
 enum Model {
     BOEING_737_800(162), BOEING_737_700(143), AIRBUS_A320(150), AIRBUS_A321(185), BOEING_757_200(200),
     BOMBARDIER_CRJ200(50), AIRBUS_A319(124), BOEING_737_900ER(178), EMBRAER_E175(76);

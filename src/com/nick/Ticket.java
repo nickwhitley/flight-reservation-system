@@ -37,7 +37,7 @@ public class Ticket {
         this.departTime = getDepartTime(flightNumber);
         this.departDate = getDepartDate(flightNumber);
         this.destination = getDestination(flightNumber);
-        this.ticketStatus = setTicketStatus(flightNumber);
+        this.ticketStatus = setInitialTicketStatus(flightNumber);
         numOfTickets = numOfTickets;
 
 
@@ -94,7 +94,7 @@ public class Ticket {
         return ticketStatus;
     }
 
-    public String setTicketStatus(String flightNumber) {
+    public String setInitialTicketStatus(String flightNumber) {
         /*
         ticket status can include
         expired
@@ -148,5 +148,10 @@ public class Ticket {
     //used to update just one ticket
     public static void updateTicketStatus(int ticketNumber, String newStatus) {
         TicketDatabase.updateTicketStatus(ticketNumber, newStatus);
+    }
+
+    //used to update all tickets for a flight
+    public static void updateTicketStatus(String flightNumber, String newStatus) {
+        TicketDatabase.updateTicketStatus(flightNumber, newStatus);
     }
 }

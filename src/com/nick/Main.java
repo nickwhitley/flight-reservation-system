@@ -3,6 +3,12 @@ package com.nick;
 import com.nick.databases.FlightDatabase;
 import com.nick.databases.TicketDatabase;
 
+import javax.management.StringValueExp;
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -10,11 +16,9 @@ public class Main {
 //        Flight flightOne = new Flight(1300, 1800, "Bunich", 150, "11/20/2020");
 
         //testing admin menu and password entry
-//        Terminal.displayInitialMenu();
+        Terminal.displayInitialMenu();
 //        Terminal.displayAdminMenu();
-//        FlightDatabase.flightDatabase();
-//        Terminal.adminCreateFlight();
-        Terminal.updateTicketStatus();
+//
 
 //        FlightDatabase.reduceSeatsAvailable("AL101631", 2);
 

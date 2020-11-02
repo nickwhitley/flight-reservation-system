@@ -5,6 +5,7 @@ import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Terminal {
@@ -68,6 +69,7 @@ public class Terminal {
 
         if(!adminPasswordEntered) {
             System.out.println("Please enter admin password: ");
+            scanner.nextLine();
             passEntry = scanner.next();
             if(passEntry.equals(adminPassword)) {
                 adminPasswordEntered = true;
@@ -330,6 +332,7 @@ public class Terminal {
     public static void updateFlightStatus() {
         String flightNumber;
         String newStatus = null;
+        String newTicketStatus = null;
 
         System.out.println("Updating flight status:\n" +
                 "Please enter the flight number of the flight you would like to update the status for:");
@@ -356,24 +359,31 @@ public class Terminal {
         switch (choice) {
             case 1:
                 newStatus = "On Time";
+                newTicketStatus = "Valid";
                 break;
             case 2:
                 newStatus = "Delayed";
+                newTicketStatus = "Valid";
                 break;
             case 3:
                 newStatus = "Boarding";
+                newTicketStatus = "Valid";
                 break;
             case 4:
                 newStatus = "Departed";
+                newTicketStatus = "Expired";
                 break;
             case 5:
                 newStatus = "Arrived";
+                newTicketStatus = "Valid";
                 break;
             case 6:
                 newStatus = "Cancelled";
+                newTicketStatus = "Cancelled";
                 break;
             case 7:
                 newStatus = "Past Flight";
+                newTicketStatus = "Expired";
                 break;
             case 8:
                 displayAdminMenu();
@@ -383,6 +393,7 @@ public class Terminal {
         }
 
         FlightDatabase.updateFlightStatus(flightNumber.toUpperCase(), newStatus);
+        Ticket.updateTicketStatus(flightNumber, newTicketStatus);
         displayAdminMenu();
 
     }
@@ -407,21 +418,29 @@ public class Terminal {
 
     public static void adminCreateFlight() {
 
+
         System.out.println("Create Flight: \n" +
                 "Please enter information below.");
+        //declare depart time
         System.out.println("Depart Time: (24 hour clock)");
         int departTimeInput = scanner.nextInt();
+        //declare depart date
         System.out.println("Depart Date: ");
         String departDateInput = scanner.next();
+        //declare arrival time
         System.out.println("Arrival Time: (24 hour clock) ");
         int arrivalTimeInput = scanner.nextInt();
+        //declare arrival date
         System.out.println("Arrival Date: ");
         String arrivalDateInput = scanner.next();
+        //declare destination
         System.out.println("Destination: ");
         scanner.nextLine();
         String destinationInput = scanner.nextLine();
+        //declare number of seats
         System.out.println("Number of Seats: ");
         int numOfSeatsInput = scanner.nextInt();
+        //declare ticket price
         System.out.println("Ticket Price: ");
         int ticketPriceInput = scanner.nextInt();
 
@@ -433,31 +452,39 @@ public class Terminal {
         StringBuilder finalDepartTimeDate = new StringBuilder();
         String arrivalTimeConverted;
         StringBuilder finalArrivalTimeDate = new StringBuilder();
-        if (departTimeInput > 1259) {
-            departTimeConverted = String.valueOf(departTimeInput-1200);
-            finalDepartTimeDate.append(departTimeConverted.substring(0,1));
-            finalDepartTimeDate.append(":");
-            finalDepartTimeDate.append(departTimeConverted.substring(1,3));
-            finalDepartTimeDate.append(" PM");
+
+        int departTimeConversion = departTimeInput;
+        int departTimeHours = departTimeConversion/100;
+        int departTimeMinutes = (departTimeConversion - departTimeConversion * 100) % 60;
+        int arrivalTimeConversion = arrivalTimeInput;
+        int arrivalTimeHours = arrivalTimeConversion/100;
+        int arrivalTimeMinutes = (arrivalTimeConversion - arrivalTimeConversion * 100) % 60;
+
+        //convert time into string
+        finalDepartTimeDate.append(String.valueOf(departTimeHours));
+        finalDepartTimeDate.append(":");
+        if (departTimeMinutes != 0) {
+            finalDepartTimeDate.append(String.valueOf(departTimeMinutes));
         } else {
-            departTimeConverted = String.valueOf(departTimeInput);
-            finalDepartTimeDate.append(departTimeConverted.substring(0,1));
-            finalDepartTimeDate.append(":");
-            finalDepartTimeDate.append(departTimeConverted.substring(1,3));
-            finalDepartTimeDate.append(" AM");
+            finalDepartTimeDate.append("00");
         }
-        if (arrivalTimeInput > 1259) {
-            arrivalTimeConverted = String.valueOf(arrivalTimeInput-1200);
-            finalArrivalTimeDate.append(arrivalTimeConverted.substring(0,1));
-            finalArrivalTimeDate.append(":");
-            finalArrivalTimeDate.append(arrivalTimeConverted.substring(1,3));
-            finalArrivalTimeDate.append(" PM");
+        if (departTimeInput < 1159 || departTimeInput == 2400) {
+            finalDepartTimeDate.append(" AM");
         } else {
-            arrivalTimeConverted = String.valueOf(departTimeInput);
-            finalArrivalTimeDate.append(arrivalTimeConverted.substring(1));
-            finalArrivalTimeDate.append(":");
-            finalArrivalTimeDate.append(arrivalTimeConverted.substring(1,3));
+            finalDepartTimeDate.append(" PM");
+        }
+
+        finalArrivalTimeDate.append(String.valueOf(arrivalTimeHours));
+        finalArrivalTimeDate.append(":");
+        if (arrivalTimeMinutes != 0) {
+            finalArrivalTimeDate.append(String.valueOf(arrivalTimeMinutes));
+        } else {
+            finalArrivalTimeDate.append("00");
+        }
+        if (arrivalTimeInput < 1159 || departTimeInput == 2400) {
             finalArrivalTimeDate.append(" AM");
+        } else {
+            finalArrivalTimeDate.append(" PM");
         }
 
         //add depart and arrive dates to String

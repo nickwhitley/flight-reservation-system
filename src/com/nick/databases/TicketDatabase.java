@@ -157,7 +157,17 @@ public class TicketDatabase {
             System.out.println("Error updating ticket status.");
             e.printStackTrace();
         }
+    }
 
+    public static void updateTicketStatus(String flightNumber, String newStatus) {
+        try{
+            statement.execute(" UPDATE " + TABLE_TICKETS + " SET " +
+                    COLUMN_TICKET_STATUS + " ='" + newStatus + "' WHERE " +
+                    COLUMN_FLIGHT_NUMBER + " ='" + flightNumber + "''");
 
+            System.out.println("Successfully updated all tickets for flight " + flightNumber);
+        } catch (SQLException e) {
+            System.out.println("Error updating all tickets for flight " + flightNumber);
+        }
     }
 }

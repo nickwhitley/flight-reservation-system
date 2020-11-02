@@ -53,6 +53,8 @@ public class Flight {
         return String.valueOf(code);
     }
 
+    //methods below will be used to display models for seat selection feature.
+
     public int getNumOfSeatColumns() {
         if(numOfSeats < 100) {
             numOfCols = 4;

@@ -54,8 +54,6 @@ public class FlightDatabase {
                     "8:00 PM 10/29/2020", "ON SCHEDULE", 98, 230);
 
 
-            statement.close();
-            conn.close();
 
             System.out.println("DB Created");
         } catch(SQLException e) {
@@ -132,8 +130,6 @@ public class FlightDatabase {
                 seatsAvailable + ", " +
                 ticketPrice + ")");
 
-        statement.close();
-        conn.close();
     }
 
     public static void checkAvailableFlights() {
@@ -333,7 +329,7 @@ public class FlightDatabase {
 
 
         } catch (SQLException e) {
-            System.out.println("Error retrieving flight info for desparture time");
+            System.out.println("Error retrieving flight info for departure time");
             e.printStackTrace();
         }
 
