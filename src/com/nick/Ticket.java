@@ -3,6 +3,7 @@ package com.nick;
 import com.nick.databases.FlightDatabase;
 import com.nick.databases.TicketDatabase;
 
+import javax.mail.MessagingException;
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -58,13 +59,13 @@ public class Ticket {
 
             System.out.println("Returning to customer menu...\n" +
                     "  ");
+            Email.sendConfirmEmail(customerEmail, customerName, flightNumber, departTime, departDate, destination,
+                    ticketNumber, ticketPrice);
             Terminal.displayInitialMenu();
-        } catch (SQLException e) {
+        } catch (SQLException | MessagingException e) {
             System.out.println("Error creating ticket number, in Ticket.purchaseTicket()");
             e.printStackTrace();
         }
-
-
     }
 
     //used specifically for "1. Check ticket and flight status in initial menu

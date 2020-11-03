@@ -1,11 +1,14 @@
 package com.nick;
 
 
+import javax.mail.MessagingException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MessagingException {
 
         Terminal.displayInitialMenu();
 
+//        Email.sendEmail("nicrofilm@gmail.com");
     }
 }
