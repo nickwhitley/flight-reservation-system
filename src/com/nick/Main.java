@@ -9,6 +9,6 @@ public class Main {
 
         Terminal.displayInitialMenu();
 
-//        Email.sendEmail("nicrofilm@gmail.com");
+
     }
 }

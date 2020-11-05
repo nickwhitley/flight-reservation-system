@@ -168,16 +168,16 @@ public class Terminal {
         System.out.println(" \n" +
                 "  ");
         displayPurchaseMenu();
-
-
     }
 
     public static void getTicketAndFlightStatus() {
-        //display form to fill out to search for ticket.
-        //search by name or ticket number
-        //display reserved status, cancelled status, or expired ticket
-        //display date of purchase and flight number
-        //display general ticket info as well
+        /*
+        display form to fill out to search for ticket.
+        search by name or ticket number
+        display reserved status, cancelled status, or expired ticket
+        display date of purchase and flight number
+        display general ticket info as well
+         */
 
         System.out.println("\n" +
                 "Check your ticket and flight status.");
@@ -187,8 +187,6 @@ public class Terminal {
         System.out.println(Ticket.getTicketAndFlightStatus(ticketNum));
         System.out.println("\n");
         displayInitialMenu();
-
-
     }
 
     public static void purchaseTicket() {
@@ -218,7 +216,7 @@ public class Terminal {
             System.out.println("Number of tickets entered: " + numOfTickets);
             int seatsAvailable = FlightDatabase.getSeatsAvailable(flightNumber);
 
-            //get seats available and if none are available have ana option to either choose different flight or
+            //get seats available and if none are available have an option to either choose different flight or
             //notify customer when seats become available
 
 
@@ -263,15 +261,12 @@ public class Terminal {
                 customerEmail = scanner.nextLine();
 
                 Ticket ticket = new Ticket(customerName, customerEmail, flightNumber, numOfTickets);
-
-
             }
-
         }
-
     }
 
     public static void notifyCustomer() {
+        //send customer email when enough seats become available for purchase
         System.out.println("This function is unavailable at the moment.\n" +
                 "Returning to main menu.");
         displayInitialMenu();
@@ -478,9 +473,9 @@ public class Terminal {
         }
 
         if(arrivalTimeHours > 12) {
-            finalDepartTimeDate.append(String.valueOf(arrivalTimeHours - 12));
+            finalArrivalTimeDate.append(String.valueOf(arrivalTimeHours - 12));
         } else {
-            finalDepartTimeDate.append(String.valueOf(arrivalTimeHours));
+            finalArrivalTimeDate.append(String.valueOf(arrivalTimeHours));
         }
         finalArrivalTimeDate.append(":");
         if (arrivalTimeMinutes != 0) {
@@ -524,16 +519,18 @@ public class Terminal {
         Flight flight = new Flight(departTime,departDate,arrivalTime,arrivalDate,destination,numOfSeats, dayCode);
         String flightNumber = flight.generateFlightCode(dayCode);
 
-        System.out.println("Trying to set flight in system");
+        System.out.println("Adding flight into FlightDatabase");
         try {
             FlightDatabase.createFlight(flightNumber, destination, finalDepartTimeDate.toString(), finalArrivalTimeDate.toString(), flightStatus,
                     numOfSeats, ticketPriceInput);
             System.out.println("Successfully Created flight!\n" +
                     " ");
+            LogFile.addLogCreateFlight(flightNumber);
         } catch (SQLException e) {
             System.out.println("Error when creating flight");
             e.printStackTrace();
         }
+
 
         displayAdminMenu();
     }

@@ -56,12 +56,14 @@ public class Ticket {
                     "Thank you!\n" +
                     "   ");
             FlightDatabase.reduceSeatsAvailable(flightNumber, numOfTickets);
+            LogFile.addLogTicketPurchased(ticketNumber, flightNumber);
 
             System.out.println("Returning to customer menu...\n" +
                     "  ");
             Email.sendConfirmEmail(customerEmail, customerName, flightNumber, departTime, departDate, destination,
                     ticketNumber, ticketPrice);
             Terminal.displayInitialMenu();
+
         } catch (SQLException | MessagingException e) {
             System.out.println("Error creating ticket number, in Ticket.purchaseTicket()");
             e.printStackTrace();

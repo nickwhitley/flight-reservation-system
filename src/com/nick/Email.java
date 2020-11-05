@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 
 public class Email {
 
-    private static String senderEmail = "xxxxxxxxxxxxxxxxxxxx";
-    private static String password = "xxxxxxxxx";
+    private static String senderEmail = "nicktestemail95@gmail.com";
+    private static String password = "Lamborghini1";
 
     public static Properties setProperties() {
         Properties properties = new Properties();
@@ -81,35 +81,12 @@ public class Email {
         return null;
     }
 
-    public static void sendEmail(String recipient) throws MessagingException {
-        System.out.println("Preparing to send email.");
+    public static void sendCancelEmail() {
 
-
-
-
-        Message message = prepareMessage(setSession(), senderEmail, recipient);
-
-        Transport.send(message);
-        System.out.println("Message send successful");
     }
 
-
-
-    private static Message prepareMessage(Session session, String senderEmail, String recipient) {
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderEmail));
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject("Test email from java");
-            message.setText("This a test email for java\n" +
-                    "If it works that's awesome!");
-            return message;
-        } catch (Exception e) {
-            System.out.println("Error creating message.");
-            Logger.getLogger(Email.class.getName()).log(Level.SEVERE, null, e);
-    }
-
+    private static Message prepareCancelMessage(){
         return null;
-
     }
+
 }

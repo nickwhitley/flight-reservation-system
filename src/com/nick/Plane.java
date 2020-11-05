@@ -4,6 +4,7 @@ package com.nick;
 
 class will be used to display models for seat selection feature.
 
+
 */
 
 enum Model {
